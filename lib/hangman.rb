@@ -23,7 +23,7 @@ class Hangman
   end
 
   def current_guess_msg
-    puts guessed_letters.join(" ")
+    puts "Letters guessed: #{guessed_letters.join(' ')}"
     puts guess_progress
   end
 
