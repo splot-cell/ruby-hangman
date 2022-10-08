@@ -5,4 +5,7 @@ class Hangman
   def initialize(target_word)
     @target_word = target_word
   end
+
+  def run
+  end
 end

@@ -3,7 +3,8 @@
 require_relative "./hangman.rb"
 
 def random_word
-  word_list = File.readlines("./google-10000-english-no-swears.txt").sample
+  word = File.readlines("./google-10000-english-no-swears.txt").sample
+  word.length.between?(5, 12) ? word : random_word
 end
 
-game = Hangman.new(random_word)
+game = Hangman.new(random_word).run
