@@ -16,6 +16,8 @@ class Hangman
   def play_turn
     puts remaining_guesses_msg
     puts current_guess_msg
+    guessed_letters.push(player_guess)
+    play_turn
   end
 
   def remaining_guesses_msg
@@ -33,5 +35,17 @@ class Hangman
       guessed_letters.include?(letter) ? progress.push(letter) : progress.push("_")
     end
     progress.join
+  end
+
+  def player_guess
+    print "Guess a letter: "
+    guess = gets.chomp[0]
+    if guess.match(/[a-z]/i)
+      return guess unless guessed_letters.include?(guess)
+      puts "You have already guessed that letter!"
+    else
+      puts "Please ensure the first character is an identifiable letter!"
+    end
+    player_guess
   end
 end
