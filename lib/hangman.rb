@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "json"
+
 class Hangman
   attr_accessor :target_word, :guessed_letters, :incorrect_guesses_left
 
