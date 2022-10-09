@@ -62,12 +62,24 @@ class Hangman
     SaveFileManager.new.save(serialize)
   end
 
+  def load_game
+    puts "Loading game..."
+    unserialize(SaveFileManager.new.load)
+    run
+  end
+
   def serialize
     data = {}
     instance_variables.map do |var|
       data[var] = instance_variable_get(var)
     end
     data
+  end
+
+  def unserialize(data)
+    data.keys.each do |key|
+      instance_variable_set(key, data[key])
+    end
   end
 
   def remaining_guesses_msg

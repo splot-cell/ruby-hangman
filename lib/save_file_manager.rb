@@ -22,4 +22,8 @@ class SaveFileManager
   def generate_filename
   "#{self.class.saves_dir}uniqfilname.yaml"
   end
+
+  def load
+    YAML.load(File.read(generate_filename))
+  end
 end
