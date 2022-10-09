@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 require_relative "./save_file_manager.rb"
+require_relative "./hangman_text.rb"
 
 class Hangman
+  include HangmanText
   attr_accessor :target_word, :guessed_letters, :incorrect_guesses_left
 
   def initialize
@@ -52,26 +54,26 @@ class Hangman
   end
 
   def player_guess
-    print "Guess a letter: "
+    print letter_prompt_msg
     guess = gets.chomp
     if guess.to_s.match(/\A[a-z]\Z/i)
       return evaluate_guess(guess).to_s unless guessed_letters.include?(guess)
-      puts "You have already guessed that letter!\n\n"
+      puts error_already_guessed
     elsif guess.to_s.match(/save/i)
       return guess
     else
-      puts "Please enter one letter, or 'save' to save your game!\n\n"
+      puts error_unrecognized_guess
     end
     player_guess
   end
 
   def save_game
-    puts "Game saving..."
+    puts save_game_msg
     SaveFileManager.new.save(serialize)
   end
 
   def load_game
-    puts "Loading game..."
+    puts load_game_msg
     unserialize(SaveFileManager.new.load)
   end
 
@@ -93,27 +95,7 @@ class Hangman
     print new_load_msg
     choice = gets.chomp
     return choice if choice.match(/^[12]$/)
-    puts "\nSelection not recognized.\n"
+    puts error_unrecognized_selection
     new_or_load_game
-  end
-
-  def remaining_guesses_msg
-    "You have #{incorrect_guesses_left} incorrect guesses remaining!"
-  end
-
-  def current_guess_msg
-    "Letters guessed: #{guessed_letters.join(' ')}\n#{guess_progress}\n\n"
-  end
-
-  def out_of_guesses_msg
-    "You ran out of guesses! The correct answer was #{target_word}."
-  end
-
-  def solved_msg
-    "#{target_word} is correct! Well done!"
-  end
-
-  def new_load_msg
-    "If you'd like to start a new game, press [1]. If you'd like to load a saved game, press [2]: "
   end
 end
