@@ -26,7 +26,7 @@ module HangmanText
   end
 
   def load_game_msg
-    "Loading game..."
+    "Loading game...\n\n"
   end
 
   def letter_prompt_msg

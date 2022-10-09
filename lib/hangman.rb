@@ -73,8 +73,8 @@ class Hangman
   end
 
   def load_game
-    puts load_game_msg
     unserialize(SaveFileManager.new.load)
+    puts load_game_msg
   end
 
   def serialize
