@@ -15,13 +15,17 @@ class SaveFileManager
   end
 
   def save(obj)
-    return too_many_saves if file_list.length >= 25
+    return too_many_saves if file_list.length >= total_unique_filenames
     filename = generate_filename
     save_file = File.open("#{SAVES_DIR}#{filename}", "w") do
       |file| file.puts(YAML.dump(obj))
     end
     puts game_saved_msg
     SAVE_SUCCESS
+  end
+
+  def total_unique_filenames
+    filename_adjectives.length * filename_nouns.length
   end
 
   def filename_adjectives
