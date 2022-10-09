@@ -13,7 +13,13 @@ module HangmanText
   end
 
   def current_guess_msg
-    "Letters guessed: #{guessed_letters.join(' ')}\n#{guess_progress}\n\n"
+    "Letters guessed: " \
+      "#{guessed_letters.map {|e| color_letter(e) } .join(' ')}" \
+      "\n#{guess_progress}\n\n"
+  end
+
+  def color_letter(letter)
+    target_word.include?(letter) ? green(letter) : red(letter)
   end
 
   def out_of_guesses_msg
