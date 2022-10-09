@@ -7,7 +7,7 @@ module HangmanText
 
   def remaining_guesses_msg
     if incorrect_guesses_left == 1
-      red("Think hard, you only have 1 incorrect guess left!")
+      return red("Think hard, you only have 1 incorrect guess left!")
     end
     "You have #{incorrect_guesses_left} incorrect guesses remaining!"
   end
@@ -17,11 +17,11 @@ module HangmanText
   end
 
   def out_of_guesses_msg
-    red("You ran out of guesses! The correct answer was #{target_word}.")
+    red("You ran out of guesses! The correct answer was #{cyan(target_word)}")
   end
 
   def solved_msg
-    bold("#{target_word} is correct! Well done!")
+    bold("#{cyan(target_word)}#{blue(' is correct! Well done!')}")
   end
 
   def new_load_msg

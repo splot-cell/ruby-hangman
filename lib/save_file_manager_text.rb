@@ -12,13 +12,13 @@ module SaveFileManagerText
   def file_list_msg
     msg = ["Enter a number to select a file from the filelist:\n"]
     file_list.each_with_index do |file, index|
-      msg.push("[#{index}]\t#{file}")
+      msg.push("[#{blue(index)}]\t#{file}")
     end
     msg.join("\n")
   end
 
   def game_saved_msg(filename)
-    "Your game was saved as #{magenta(filename)}"
+    "Your game was saved as #{green(filename)}"
   end
 
   def error_too_many_files
