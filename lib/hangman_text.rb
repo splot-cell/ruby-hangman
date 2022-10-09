@@ -1,7 +1,14 @@
 # frozen_string_literal: true
 
+require_relative "./console_formatting.rb"
+
 module HangmanText
+  include ConsoleFormatting
+
   def remaining_guesses_msg
+    if incorrect_guesses_left == 1
+      red("Think hard, you only have 1 incorrect guess left!")
+    end
     "You have #{incorrect_guesses_left} incorrect guesses remaining!"
   end
 
@@ -10,11 +17,11 @@ module HangmanText
   end
 
   def out_of_guesses_msg
-    "You ran out of guesses! The correct answer was #{target_word}."
+    red("You ran out of guesses! The correct answer was #{target_word}.")
   end
 
   def solved_msg
-    "#{target_word} is correct! Well done!"
+    bold("#{target_word} is correct! Well done!")
   end
 
   def new_load_msg
@@ -22,11 +29,11 @@ module HangmanText
   end
 
   def save_game_msg
-    "Game saving..."
+    green("Game saving...")
   end
 
   def load_game_msg
-    "Loading game...\n\n"
+    green("Loading game...\n\n")
   end
 
   def letter_prompt_msg
@@ -34,14 +41,14 @@ module HangmanText
   end
 
   def error_already_guessed
-    "You have already guessed that letter!\n\n"
+    red("You have already guessed that letter!\n\n")
   end
 
   def error_unrecognized_guess
-    "Please enter one letter, or 'save' to save your game!\n\n"
+    red("Please enter one letter, or 'save' to save your game!\n\n")
   end
 
   def error_unrecognized_selection
-    "\nSelection not recognized.\n"
+    red("\nSelection not recognized.\n")
   end
 end

@@ -20,7 +20,7 @@ class SaveFileManager
     save_file = File.open("#{SAVES_DIR}#{filename}", "w") do
       |file| file.puts(YAML.dump(obj))
     end
-    puts game_saved_msg
+    puts game_saved_msg(filename)
     SAVE_SUCCESS
   end
 

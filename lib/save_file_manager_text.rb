@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+require_relative "./console_formatting.rb"
+
 module SaveFileManagerText
+  include ConsoleFormatting
+
   def no_save_files_msg
     "No savefiles detected, starting new game..."
   end
@@ -13,15 +17,15 @@ module SaveFileManagerText
     msg.join("\n")
   end
 
-  def game_saved_msg
-    "Your game was saved as #{filename}"
+  def game_saved_msg(filename)
+    "Your game was saved as #{magenta(filename)}"
   end
 
   def error_too_many_files
-    "Error: too many save files!"
+    red("Error: too many save files!")
   end
 
   def error_unrecognized_selection
-    "Selection not recognized\n\n"
+    red("Selection not recognized\n\n")
   end
 end
