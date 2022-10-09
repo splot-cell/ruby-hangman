@@ -13,7 +13,7 @@ class Hangman
     puts play_turn
   end
 
-  private:
+  private
 
   def solved?
     guess_progress == target_word
