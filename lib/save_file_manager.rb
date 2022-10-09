@@ -3,23 +3,22 @@
 require "yaml"
 
 class SaveFileManager
-  @saves_dir = "./saves/"
+  SAVES_DIR = "./saves/"
+  SAVE_SUCCESS = 0
+  SAVE_ERROR = 1
 
   def initialize
-    Dir.mkdir(self.class.saves_dir) unless Dir.exist?(self.class.saves_dir)
+    Dir.mkdir(SAVES_DIR) unless Dir.exist?(SAVES_DIR)
   end
 
   def save(obj)
-    return too_many_saves if file_list.length == 25
+    return too_many_saves if file_list.length >= 25
     filename = generate_filename
-    save_file = File.open("#{self.class.saves_dir}#{filename}", "w") do
+    save_file = File.open("#{SAVES_DIR}#{filename}", "w") do
       |file| file.puts(YAML.dump(obj))
     end
     puts "Your game was saved as #{filename}"
-  end
-
-  def self.saves_dir
-    @saves_dir
+    SAVE_SUCCESS
   end
 
   def filename_adjectives
@@ -38,7 +37,7 @@ class SaveFileManager
 
   def load
     return no_saves if file_list.empty?
-    filename = "#{self.class.saves_dir}#{file_list[select_file]}"
+    filename = "#{SAVES_DIR}#{file_list[select_file]}"
     data = File.read(filename)
     File.delete(filename)
     YAML.load(data)
@@ -59,11 +58,12 @@ class SaveFileManager
   end
 
   def file_list
-    Dir.children(self.class.saves_dir)
+    Dir.children(SAVES_DIR)
   end
 
   def too_many_saves
     puts "Error: too many save files!"
+    SAVE_ERROR
   end
 
   def no_save_files_msg

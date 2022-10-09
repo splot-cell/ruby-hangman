@@ -26,7 +26,9 @@ class Hangman
     return out_of_guesses_msg if incorrect_guesses_left.zero?
     puts remaining_guesses_msg
     puts current_guess_msg
-    return save_game if player_guess.match(/save/i)
+    if player_guess.match(/save/i)
+      return if save_game == 0
+    end
     return solved_msg if solved?
     play_turn
   end
