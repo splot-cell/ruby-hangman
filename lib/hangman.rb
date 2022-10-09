@@ -23,7 +23,9 @@ class Hangman
     return out_of_guesses_msg if incorrect_guesses_left.zero?
     puts remaining_guesses_msg
     puts current_guess_msg
-    evaluate_guess(player_guess)
+    player_choice = player_guess
+    return save_game if player_choice.match(/save/i)
+    evaluate_guess(player_choice)
     return solved_msg if solved?
     play_turn
   end
@@ -46,11 +48,17 @@ class Hangman
     guess = gets.chomp
     if guess.to_s.match(/\A[a-z]\Z/i)
       return guess unless guessed_letters.include?(guess)
-      puts "You have already guessed that letter!"
+      puts "You have already guessed that letter!\n\n"
+    elsif guess.to_s.match(/save/i)
+      return guess
     else
-      puts "Please enter one letter, or 'save' to save your game!"
+      puts "Please enter one letter, or 'save' to save your game!\n\n"
     end
     player_guess
+  end
+
+  def save_game
+    puts "Game saving..."
   end
 
   def remaining_guesses_msg
@@ -58,8 +66,7 @@ class Hangman
   end
 
   def current_guess_msg
-    puts "Letters guessed: #{guessed_letters.join(' ')}"
-    puts guess_progress
+    "Letters guessed: #{guessed_letters.join(' ')}\n#{guess_progress}\n\n"
   end
 
   def out_of_guesses_msg
