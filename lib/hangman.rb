@@ -43,12 +43,12 @@ class Hangman
 
   def player_guess
     print "Guess a letter: "
-    guess = gets.chomp[0]
-    if guess.to_s.match(/[a-z]/i)
+    guess = gets.chomp
+    if guess.to_s.match(/\A[a-z]\Z/i)
       return guess unless guessed_letters.include?(guess)
       puts "You have already guessed that letter!"
     else
-      puts "Please ensure the first character is an identifiable letter!"
+      puts "Please enter one letter, or 'save' to save your game!"
     end
     player_guess
   end
