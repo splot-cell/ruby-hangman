@@ -10,9 +10,12 @@ class SaveFileManager
   end
 
   def save(obj)
-    save_file = File.open(generate_filename, "w") do
+    return too_many_saves if file_list.length == 25
+    filename = generate_filename
+    save_file = File.open("#{self.class.saves_dir}#{filename}", "w") do
       |file| file.puts(YAML.dump(obj))
     end
+    puts "Your game was saved as #{filename}"
   end
 
   def self.saves_dir
@@ -28,8 +31,9 @@ class SaveFileManager
   end
 
   def generate_filename
-  "#{self.class.saves_dir}" \
-    "#{filename_adjectives.sample}_#{filename_nouns.sample}.yaml"
+    filename = "#{filename_adjectives.sample}_#{filename_nouns.sample}.yaml"
+    return filename unless file_list.include?(filename)
+    generate_filename
   end
 
   def load
@@ -46,7 +50,7 @@ class SaveFileManager
   def select_file
     puts file_list_msg
     selection = gets.chomp
-    return selection.to_i if selection.match(/^[0-9]$/) &&
+    return selection.to_i if selection.match(/^[0-9]+$/) &&
            selection.to_i < file_list.length
     puts "Selection not recognized\n\n"
     select_file
@@ -54,6 +58,10 @@ class SaveFileManager
 
   def file_list
     Dir.children(self.class.saves_dir)
+  end
+
+  def too_many_saves
+    puts "Error: too many save files!"
   end
 
   def no_save_files_msg
