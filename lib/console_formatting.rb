@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Contains helper functinos for formatting text output to console
 module ConsoleFormatting
   # Text colors
   def black(string)

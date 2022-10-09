@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "./console_formatting.rb"
+require_relative "./console_formatting"
 
+# Module handling text output for the SaveFileManager class
 module SaveFileManagerText
   include ConsoleFormatting
 

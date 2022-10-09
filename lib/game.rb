@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "./hangman.rb"
+require_relative "./hangman"
 
-game = Hangman.new.run
+Hangman.new.run

@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require_relative "./save_file_manager.rb"
-require_relative "./hangman_text.rb"
+require_relative "./save_file_manager"
+require_relative "./hangman_text"
 
+# Hangman class contains game state and logic
 class Hangman
   include HangmanText
   attr_accessor :target_word, :guessed_letters, :incorrect_guesses_left
@@ -31,12 +32,15 @@ class Hangman
 
   def play_turn
     return out_of_guesses_msg if incorrect_guesses_left.zero?
+
     puts remaining_guesses_msg
     puts current_guess_msg
     if player_guess.match(/save/i)
-      return if save_game == 0
+      return if save_game.zero?
+
     end
     return solved_msg if solved?
+
     play_turn
   end
 
@@ -56,10 +60,12 @@ class Hangman
   def player_guess
     print letter_prompt_msg
     guess = gets.chomp
-    if guess.to_s.match(/\A[a-z]\Z/i)
+    case
+    when guess.to_s.match(/\A[a-z]\Z/i)
       return evaluate_guess(guess).to_s unless guessed_letters.include?(guess)
+
       puts error_already_guessed
-    elsif guess.to_s.match(/save/i)
+    when guess.to_s.match(/save/i)
       return guess
     else
       puts error_unrecognized_guess
@@ -86,7 +92,7 @@ class Hangman
   end
 
   def unserialize(data)
-    data.keys.each do |key|
+    data.each_key do |key|
       instance_variable_set(key, data[key])
     end
   end
@@ -95,6 +101,7 @@ class Hangman
     print new_load_msg
     choice = gets.chomp
     return choice if choice.match(/^[12]$/)
+
     puts error_unrecognized_selection
     new_or_load_game
   end
