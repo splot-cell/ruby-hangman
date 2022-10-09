@@ -5,8 +5,8 @@ require_relative "./save_file_manager.rb"
 class Hangman
   attr_accessor :target_word, :guessed_letters, :incorrect_guesses_left
 
-  def initialize(target_word)
-    @target_word = target_word
+  def initialize
+    @target_word = random_word
     @incorrect_guesses_left = 10
     @guessed_letters = []
     load_game if new_or_load_game == "2"
@@ -17,6 +17,11 @@ class Hangman
   end
 
   private
+
+  def random_word
+    word = File.readlines("./google-10000-english-no-swears.txt").sample.chomp
+    word.length.between?(5, 12) ? word : random_word
+  end
 
   def solved?
     guess_progress == target_word
