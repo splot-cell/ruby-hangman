@@ -86,7 +86,7 @@ class Hangman
   def serialize
     data = {}
     instance_variables.map do |var|
-      data[var] = instance_variable_get(var)
+      data[var.to_s] = instance_variable_get(var)
     end
     data
   end
