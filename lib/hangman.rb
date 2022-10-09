@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "json"
+require_relative "./save_file_manager.rb"
 
 class Hangman
   attr_accessor :target_word, :guessed_letters, :incorrect_guesses_left
@@ -59,6 +59,15 @@ class Hangman
 
   def save_game
     puts "Game saving..."
+    SaveFileManager.new.save(serialize)
+  end
+
+  def serialize
+    data = {}
+    instance_variables.map do |var|
+      data[var] = instance_variable_get(var)
+    end
+    data
   end
 
   def remaining_guesses_msg
