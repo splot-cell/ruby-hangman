@@ -8,4 +8,4 @@ A command line hangman game with save states.
 - Load game state from disk
 - Use YAML package
 ## Live preview
-Coming soon...
+[See a live preview on Replit.](https://replit.com/@splot-cell/ruby-hangman?v=1#README.md)
