@@ -9,6 +9,7 @@ class Hangman
     @target_word = target_word
     @incorrect_guesses_left = 10
     @guessed_letters = []
+    load_game if new_or_load_game == "2"
   end
 
   def run
@@ -65,7 +66,6 @@ class Hangman
   def load_game
     puts "Loading game..."
     unserialize(SaveFileManager.new.load)
-    run
   end
 
   def serialize
@@ -82,6 +82,14 @@ class Hangman
     end
   end
 
+  def new_or_load_game
+    print new_load_msg
+    choice = gets.chomp
+    return choice if choice.match(/^[12]$/)
+    puts "\nSelection not recognized.\n"
+    new_or_load_game
+  end
+
   def remaining_guesses_msg
     "You have #{incorrect_guesses_left} incorrect guesses remaining!"
   end
@@ -96,5 +104,9 @@ class Hangman
 
   def solved_msg
     "#{target_word} is correct! Well done!"
+  end
+
+  def new_load_msg
+    "If you'd like to start a new game, press [1]. If you'd like to load a saved game, press [2]: "
   end
 end
