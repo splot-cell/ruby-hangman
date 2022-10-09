@@ -13,6 +13,12 @@ class Hangman
     puts play_turn
   end
 
+  private:
+
+  def solved?
+    guess_progress == target_word
+  end
+
   def play_turn
     return out_of_guesses_msg if incorrect_guesses_left.zero?
     puts remaining_guesses_msg
@@ -22,13 +28,9 @@ class Hangman
     play_turn
   end
 
-  def remaining_guesses_msg
-    "You have #{incorrect_guesses_left} incorrect guesses remaining!"
-  end
-
-  def current_guess_msg
-    puts "Letters guessed: #{guessed_letters.join(' ')}"
-    puts guess_progress
+  def evaluate_guess(letter)
+    @incorrect_guesses_left -= 1 unless target_word.include?(letter)
+    guessed_letters.push(letter)
   end
 
   def guess_progress
@@ -37,11 +39,6 @@ class Hangman
       guessed_letters.include?(letter) ? progress.push(letter) : progress.push("_")
     end
     progress.join
-  end
-
-  def evaluate_guess(letter)
-    @incorrect_guesses_left -= 1 unless target_word.include?(letter)
-    guessed_letters.push(letter)
   end
 
   def player_guess
@@ -56,8 +53,13 @@ class Hangman
     player_guess
   end
 
-  def solved?
-    guess_progress == target_word
+  def remaining_guesses_msg
+    "You have #{incorrect_guesses_left} incorrect guesses remaining!"
+  end
+
+  def current_guess_msg
+    puts "Letters guessed: #{guessed_letters.join(' ')}"
+    puts guess_progress
   end
 
   def out_of_guesses_msg
