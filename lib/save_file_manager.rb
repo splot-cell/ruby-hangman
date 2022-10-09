@@ -38,8 +38,10 @@ class SaveFileManager
 
   def load
     return no_saves if file_list.empty?
-
-    YAML.load(File.read("#{self.class.saves_dir}#{file_list[select_file]}"))
+    filename = "#{self.class.saves_dir}#{file_list[select_file]}"
+    data = File.read(filename)
+    File.delete(filename)
+    YAML.load(data)
   end
 
   def no_saves
