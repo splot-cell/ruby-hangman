@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 require "yaml"
+require_relative "./save_file_manager_text.rb"
 
 class SaveFileManager
+  include SaveFileManagerText
+
   SAVES_DIR = "./saves/"
   SAVE_SUCCESS = 0
   SAVE_ERROR = 1
@@ -17,7 +20,7 @@ class SaveFileManager
     save_file = File.open("#{SAVES_DIR}#{filename}", "w") do
       |file| file.puts(YAML.dump(obj))
     end
-    puts "Your game was saved as #{filename}"
+    puts game_saved_msg
     SAVE_SUCCESS
   end
 
@@ -53,7 +56,7 @@ class SaveFileManager
     selection = gets.chomp
     return selection.to_i if selection.match(/^[0-9]+$/) &&
            selection.to_i < file_list.length
-    puts "Selection not recognized\n\n"
+    puts error_unrecognized_selection
     select_file
   end
 
@@ -62,19 +65,7 @@ class SaveFileManager
   end
 
   def too_many_saves
-    puts "Error: too many save files!"
+    puts error_too_many_files
     SAVE_ERROR
-  end
-
-  def no_save_files_msg
-    "No savefiles detected, starting new game..."
-  end
-
-  def file_list_msg
-    msg = ["Enter a number to select a file from the filelist:\n"]
-    file_list.each_with_index do |file, index|
-      msg.push("[#{index}]\t#{file}")
-    end
-    msg.join("\n")
   end
 end
